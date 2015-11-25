@@ -196,9 +196,8 @@ function btn_guardar_prenda(num,pmo_id){
     }
 }
 
-function est_prestamo_cliente(cli_id){
-    
-//    $("#reg_usuario_ape_nom").val($.trim($("#table_Clientes").getCell(id, "name")));
+function est_prestamo_cliente(cli_id){   
+
     $.ajax({
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         type: 'POST',
@@ -207,9 +206,17 @@ function est_prestamo_cliente(cli_id){
         success: function (data){
             if(data.msg=='si'){
                 $("#dialog_tabla_est_prestamo").dialog({
-                    autoOpen: false, modal: true, height: 500, width: 700, show: { effect: "fade", duration: 300 }
+                    autoOpen: false, modal: true, height: 500, width: 700, show: { effect: "fade", duration: 300 },
+                    close:function(){
+                        document.getElementById('est_prestamo_num').options.length = 0;//reinicia combo             
+                    }
                 }).dialog('open');
-                table_est_prestamo();
+                
+                
+                for (i = 1; i <= data.num; i++) {//carga el combo NUM PRESTAMO  BD                    
+                    $('#est_prestamo_num').append('<option value=' + i + '>' + 'PRESTAMO '+ i + '</option>');          
+                }
+                table_est_prestamo(cli_id,1);// por defecto llena la tabla con el primer prestamo            
             }else{
                 mensaje_sis('mensaje','* Este Clinte no tiene ningun prestamo...',':.ERROR...!!');
             }
@@ -220,9 +227,10 @@ function est_prestamo_cliente(cli_id){
     
 }
 
-function table_est_prestamo(){
+function table_est_prestamo(cli_id,num){
+    
     jQuery("#table_est_prestamo").jqGrid({ 
-        url: 'est_prestamo',
+        url: 'est_prestamo/'+cli_id+'/'+num,
         datatype: 'json', mtype: 'GET',        
         width: '100%', height: '150',
         colNames:['id','N','pmo_id','TIPO','%', 'MONTO','FECHA','DIAS','PAGO','total'], 
@@ -265,6 +273,13 @@ function table_est_prestamo(){
     }); 
 }
 
+function select_ver_prestamo(num){ 
+    cli_id=$("#est_prestamo_cli_id").val();
+    jQuery("#table_est_prestamo").jqGrid('setGridParam', {
+        url: 'est_prestamo/'+cli_id+'/'+num
+    }).trigger('reloadGrid');
+//    limpiar_ctrl_c_u('div_ver_tratamiento','txt_ver_trat_subtot*txt_ver_trat_dscto*txt_ver_trat_tot');
+}
 
 function get_num(id){     
     $.ajax({

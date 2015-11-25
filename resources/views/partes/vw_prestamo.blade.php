@@ -219,7 +219,10 @@
             <input type="hidden" id="est_prestamo_cli_id" value="" >           
             <label class="ctrl_lavel_0" style="width:25%">Apellidos y Nombres:</label>
             <input type="text" class="ctrl_input_text_cabesera" style="width: 45%;" id="est_prestamo_ape_nom" disabled="disabled">
-            <input type="text" id="est_prestamo_combo_num" class="ctrl_input_text_disabled"  style="width:20%; font-size: 16px; border: 0px;" value="" disabled="">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <select class="ctrl_input_text_cabesera" id="est_prestamo_num" onchange="select_ver_prestamo(this.value);">
+                <!--COMBO PRESTAMO NUM-->
+            </select>
         </div>
         <div class="ctrl_input" style="margin: 2% 0 -1.5% 0; padding: 0 3%;">
             <div style="float: left; background: #6FADD9; color: white; text-align: center; width: 20%;height: 21px;">Soles</div>

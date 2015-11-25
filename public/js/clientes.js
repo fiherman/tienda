@@ -32,7 +32,7 @@ function open_dialog_tabla_cLiente(){
             $("#nuevo_prestamo_cliente_id").val($("#table_Clientes").getCell(Id,"cli_id"));  
             $("#nuevo_prestamo_cliente_ape_nom").val(ape_nom);
             $("#est_prestamo_ape_nom").val(ape_nom);
-            
+            $("#est_prestamo_cli_id").val($("#table_Clientes").getCell(Id,"cli_id"));
         }
 //        ondblClickRow: function(Id){            
 //            ape_nom=$("#table_Clientes").getCell(Id,"cli_ape")+' '+$("#table_Clientes").getCell(Id,"cli_nom");

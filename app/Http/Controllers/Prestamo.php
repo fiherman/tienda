@@ -158,11 +158,11 @@ class Prestamo extends Controller
         else return false;
     }
 
-    function tabla_est_prestamo()
+    function tabla_est_prestamo($cli_id,$num)
     {
         header('Content-type: application/json');
 //        $users = DB::table('users')->get();
-        $totalg = DB::select('select count(est_pre_id) as total from est_prestamo');
+        $totalg = DB::select("select count(est_pre_id) as total from est_prestamo where cli_id='".$cli_id."' and num_prestamo=".$num);
         $page  = $_GET['page']; 
         $limit = $_GET['rows']; 
         $sidx  = $_GET['sidx']; 
@@ -186,6 +186,8 @@ class Prestamo extends Controller
 
         $sql = DB::table('est_prestamo')->
                 select('*',\DB::raw('(est_pre_monto+est_pre_int_gen)as total'),\DB::raw("to_char(date(est_pre_fch),'DD-MM-YYYY') as fecha"))
+                ->where('cli_id',$cli_id)
+                ->where('num_prestamo',$num)
                 ->orderBy($sidx,$sord)->limit($limit)->offset($start)->get();
         $table= array();        
         $table['page'] = $page;
@@ -219,20 +221,21 @@ class Prestamo extends Controller
         
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function isset_est_prestamo(Request $request)
     {
         $data = $request->all();
         
-        $isset_est_pre  = DB::table('est_prestamo')->where('cli_id',$data['cli_id'])->where('num_prestamo',$data['num'])->get();
+        $isset_est_pre  = DB::table('est_prestamo')->select('num_prestamo')
+                ->where('cli_id',$data['cli_id'])
+                ->orderBy('num_prestamo','desc')
+                ->limit(1)
+                ->get();
+        
         if($isset_est_pre){
-            return response()->json(['msg'=> 'si']);
+            return response()->json([
+                'msg'=> 'si',
+                'num'=> $isset_est_pre[0]->num_prestamo
+            ]);
         }else{
             return response()->json(['msg'=> 'no']);
         }
