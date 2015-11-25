@@ -1,0 +1,133 @@
+
+.filtros{
+    border: 1px solid #99bce8;
+     margin: 1.5% 1.5% 1%;
+    padding-bottom: 20px;
+}
+.spanasis {    
+    background-color: #CCDEF4;
+    margin: -3px 0 0;
+    font-weight: bold;
+    color: #04408c;
+    padding: 4px;
+    font-size: 11px;
+    font-family: tahoma,arial,verdana,sans-serif;
+    border-bottom: solid 1px #99bce8;
+    /*height: 16px;*/
+    /*text-transform: capitalize;*/
+    text-shadow: 0 1px 0 white;
+    /*line-height: 1.5;*/
+    padding: 2px 2px 2px 5px;
+    border-top: solid 1px #99bce8;
+    margin-top: -1px;
+    
+}
+
+
+
+.btn_full{
+    background-color:#DFE8F6;                                  
+    color:#0C509D;      
+    font-weight:bold;
+    padding:3px 10px; 
+    border: 1px solid #99BCE8;  
+}
+.btn_full:hover{
+    color: white;
+    background-color: #418BC3;
+}
+.btn_full:active{ 
+    color: #418BC3;
+    background-color: #FFFFFF;
+}
+.btn_full[disabled="disabled"]{
+    color: #99BCE8;
+    background-color: #d1e5f9;//#d1e5f9;
+    border: #99BCE8 solid 1px;
+}
+.btn_full:focus{
+    border: 1px solid #0C6CC8;
+}
+
+///////JQUERY DIALOG////////////////////////////////
+.ui-widget-content.ui-dialog{
+   border: 2px solid #418BC3;   
+}
+.ui-dialog .ui-dialog-titlebar{
+    border-radius: 0px;
+    /*padding: .5em .5em;*/
+    /*position: relative;*/
+    font-size: 14px;
+    height: 30px;
+    /*border: 1px solid red;*/
+}
+.ui-widget {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 12px;
+}
+
+.ui-widget-content {///datos de la grilla
+    background: #F9FBFD;
+    border: 1px solid #82A0C6;
+    color: #222222;
+    font-size: 12px;
+}
+
+.ui-dialog {
+    left: 0;
+    outline: 0 none;
+    border-radius: 0px;
+    padding: 0 !important;
+    position: absolute;
+    top: 0;
+}
+/*.ui-dialog .ui-dialog-content {
+    background: none repeat scroll 0 0 transparent;    
+    border: 0 none;
+    overflow: auto;
+    position: relative;
+    padding: 0 !important;
+}*/
+
+.ui-widget-header {
+    background: #418BC3;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+    height: 37px;
+    font-size:13px;
+}
+
+.ui-button-text {
+   font-size: 13px;   
+}
+.ui-button-icon{
+    border: 1px solid #316892;
+}
+.ui-jqgrid .ui-jqgrid-titlebar {//titulo del grid
+    font-size: 11px;
+}
+/*.ui-button:hover{
+    background: #418BC3;
+}
+.ui-button:active{
+    background: #fffff;
+}*/
+////////MENU CONTAINER NAVAR
+
+
+
+
+    
+ 
+
+
+
+
+
+
+
+
+
+
+
