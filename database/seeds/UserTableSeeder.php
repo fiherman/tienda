@@ -42,11 +42,11 @@ class UserTableSeeder extends Seeder
         
         
 //        $dni=12345678;
-        $input=array('CAS1','CAS2','CAS3','CAS4','CAS5');
+//        $input=array('CAS1','CAS2','CAS3','CAS4','CAS5');
 //        for($i=0;$i<=30;$i++){ 
             factory(App\Cliente::class)->create([
                 'cli_id'         => 'C1',
-                'cas_id'         => $input[rand(0,4)],
+                'cas_id'         => 'CAS1',
                 'user_id'        => 1,
                 'cli_ape'        => 'VELASQUEZ MAMANI',
                 'cli_nom'        => 'VLADIMIRO ETDISSON',

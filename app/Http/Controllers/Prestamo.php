@@ -28,13 +28,8 @@ class Prestamo extends Controller
     
     public function insert_prestamo(Request $request)
     {
-        $data = $request->all();
-        
-//        if($this->save_prestamo($request->all())){            
-//            return response()->json([
-//                'msg'       => 'si',                                      
-//            ]);            
-//        }
+        $data = $request->all();        
+
         $pmo_id= $this->save_prestamo($request->all());
         if($pmo_id){
             return response()->json([
@@ -77,7 +72,7 @@ class Prestamo extends Controller
         if ($insert){ 
             if($this->save_prestar($prestamo,$pmo_idd)){
                 return ("PMO".$pmo_idd);
-            }
+            }else{ return false;}
         }else{ 
             return false;
         }
@@ -87,13 +82,9 @@ class Prestamo extends Controller
     {
         date_default_timezone_set('America/Lima');
         setlocale(LC_ALL,"es_ES");
-        $pre_id  = DB::table('prestar')->select('pre_id')->orderBy('pre_id','desc')->get();
-        if($pre_id){
-            $pre_idd = (substr($pre_id[0]->pre_id, 3)+1);
-        }else{ $pre_idd = 1; }
         
-        $prestar = array(
-            'pre_id'        => 'PRE'.$pre_idd,
+        
+        $prestar = array(            
             'pmo_id'        => "PMO".$pmo_id,
             'user_id'       => $prestamo['user_id'],
             'cli_id'        => $prestamo['cli_id'],
@@ -114,7 +105,7 @@ class Prestamo extends Controller
         if ($insert){
             if($this->save_estado_prestamo($prestar,'PRESTAMO')){            
                 return true;
-            }            
+            }else{ return false;}            
         }else {
             return false;            
         }
@@ -133,14 +124,9 @@ class Prestamo extends Controller
     public function insert_prenda(array $prenda)
     {
         date_default_timezone_set('America/Lima');
-        setlocale(LC_ALL,"es_ES");
-        $pda_id  = DB::table('prenda')->select('pda_id')->orderBy('pda_id','desc')->orderBy('pda_fch_reg','desc')->get();
-        if($pda_id){
-            $pda_idd = (substr($pda_id[0]->pda_id, 3)+1);            
-        }else{ $pda_idd = 1; }
+        setlocale(LC_ALL,"es_ES");        
         
-        $pda = array(
-            'pda_id'            => "PDA".$pda_idd,
+        $pda = array(            
             'pmo_id'            => $prenda['pmo_id'],
             'pda_desc'          => strtoUpper($prenda['pda_des']),
             'pda_monto'         => $prenda['pda_monto'],            
@@ -154,14 +140,8 @@ class Prestamo extends Controller
     }
   
     function save_estado_prestamo(array $data,$tipo)
-    {
-        $est_pre_id  = DB::table('est_prestamo')->select('est_pre_id')->orderBy('est_pre_id','desc')->orderBy('est_pre_fch','desc')->get();
-        if($est_pre_id){
-            $id = (substr($est_pre_id[0]->pda_id, 2)+1);            
-        }else{ $id = 1; }
-        
-        $est_prestamo = array(
-            'est_pre_id'        => "EP".$id,            
+    {   
+        $est_prestamo = array(                       
             'pmo_id'            => $data['pmo_id'],
             'est_pre_tipo'      => $tipo,
             'est_pre_interes'   => $data['pre_interes'],            
