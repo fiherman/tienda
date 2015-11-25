@@ -99,11 +99,11 @@ class Prestamo extends Controller
             'pre_fch_up'    => date('d-m-Y H:i:s'),
             'pre_ano_eje'   => date('Y'),
         );
-        
+        $pre_num=$prestamo['pre_num'];
 //        return $prestar;
         $insert=DB::table('prestar')->insert($prestar);
         if ($insert){
-            if($this->save_estado_prestamo($prestar,'PRESTAMO')){            
+            if($this->save_estado_prestamo($prestar,'PRESTAMO',$pre_num)){            
                 return true;
             }else{ return false;}            
         }else {
@@ -139,10 +139,12 @@ class Prestamo extends Controller
         else return false;
     }
   
-    function save_estado_prestamo(array $data,$tipo)
+    function save_estado_prestamo(array $data,$tipo,$pre_num)
     {   
         $est_prestamo = array(                       
             'pmo_id'            => $data['pmo_id'],
+            'cli_id'            => $data['cli_id'],
+            'num_prestamo'      => $pre_num,
             'est_pre_tipo'      => $tipo,
             'est_pre_interes'   => $data['pre_interes'],            
             'est_pre_monto'     => $data['pre_monto'],
@@ -224,9 +226,16 @@ class Prestamo extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function isset_est_prestamo(Request $request)
     {
-        //
+        $data = $request->all();
+        
+        $isset_est_pre  = DB::table('est_prestamo')->where('cli_id',$data['cli_id'])->where('num_prestamo',$data['num'])->get();
+        if($isset_est_pre){
+            return response()->json(['msg'=> 'si']);
+        }else{
+            return response()->json(['msg'=> 'no']);
+        }
     }
 
     /**

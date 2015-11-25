@@ -15,7 +15,9 @@ class CreateEstPrestamoTable extends Migration
         Schema::create('est_prestamo', function (Blueprint $table) {
             
             $table->increments('est_pre_id');          
-            $table->string('pmo_id',30);            
+            $table->string('pmo_id',30);
+            $table->string('cli_id',30);
+            $table->integer('num_prestamo');
             $table->string('est_pre_tipo',20);
             $table->decimal('est_pre_interes',2, 2);
             $table->decimal('est_pre_monto',7, 2);

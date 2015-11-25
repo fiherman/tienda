@@ -58,7 +58,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('get_interes', 'General@get_interes');//trae el interes del tabla system
     Route::post('pmo_prestar_save', 'Prestamo@insert_prestamo');//insert PRESTAMO y PRESTAR
     Route::post('save_prenda', 'Prestamo@save_prenda');//guarda las prendas del prestamo
-    Route::get('est_prestamo', 'Prestamo@tabla_est_prestamo');
+    Route::get('est_prestamo', 'Prestamo@tabla_est_prestamo');// crea la tabla est prestamo
+    Route::post('isset_est_prestamo', 'Prestamo@isset_est_prestamo');
+    
+    
 });
 
 

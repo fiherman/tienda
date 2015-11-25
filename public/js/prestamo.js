@@ -36,7 +36,7 @@ function btn_agregar_insertar(){
     "<label class='lbl_din'>"+cont+"</label>\n\
     <input type='text' class='des_din' id='prenda_din_"+cont+"' value='"+prenda+"' disabled>\n\
     <input type='text' class='text_monto_din' id='monto_din_"+cont+"' value='"+monto.toFixed(2)+"'>\n\
-    <button onclick='btn_borrar_prenda("+cont+","+monto.toFixed(2)+");' class='btn_din' id='btn_eliminar_din_"+cont+"' title='Eliminar'> <img src='http://"+document.domain+"/caja/public/images/x.png' style='width:15px' ></img></button>";            
+    <button onclick='btn_borrar_prenda("+cont+","+monto.toFixed(2)+");' class='btn_din' id='btn_eliminar_din_"+cont+"' title='Eliminar'> <img src='http://"+document.domain+"/tienda/public/images/x.png' style='width:15px' ></img></button>";            
     document.getElementById('div_prendas_dinamico').appendChild(newdiv);
     total=(total + monto); 
     $("#div_prenda_monto_total").val(total.toFixed(2));
@@ -77,12 +77,6 @@ function btn_borrar_prenda(num,monto){///borrar los tratamientos
     $("#div_prenda_monto_total").val(total.toFixed(2));
 
     $("#btn_eliminar_din_"+cont).show();
-//    if(cont>=7){        
-//        he=document.getElementById('div_prendas_dinamico').offsetHeight;   
-//        he2=document.getElementById('dialog_nuevo_prestamo_gral').offsetHeight;   
-//        $("#div_prendas_dinamico").height((he-20)+"px");
-//        $("#dialog_nuevo_prestamo_gral").height((he2-20)+"px");        
-//    }
 }
 
 moneda="";
@@ -203,11 +197,30 @@ function btn_guardar_prenda(num,pmo_id){
 }
 
 function est_prestamo_cliente(cli_id){
-    $("#dialog_tabla_est_prestamo").dialog({
-            autoOpen: false, modal: true, height: 500, width: 700, show: { effect: "fade", duration: 300 }
-    }).dialog('open');
-//    $("#reg_usuario_ape_nom").val($.trim($("#table_Clientes").getCell(id, "name")));
     
+//    $("#reg_usuario_ape_nom").val($.trim($("#table_Clientes").getCell(id, "name")));
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        type: 'POST',
+        url: 'isset_est_prestamo',
+        data: {cli_id:cli_id,num:1,_token:global_token},
+        success: function (data){
+            if(data.msg=='si'){
+                $("#dialog_tabla_est_prestamo").dialog({
+                    autoOpen: false, modal: true, height: 500, width: 700, show: { effect: "fade", duration: 300 }
+                }).dialog('open');
+                table_est_prestamo();
+            }else{
+                mensaje_sis('mensaje','* Este Clinte no tiene ningun prestamo...',':.ERROR...!!');
+            }
+        },error: function(data){
+            alert('Contactese con el administrador..');
+        }
+    });
+    
+}
+
+function table_est_prestamo(){
     jQuery("#table_est_prestamo").jqGrid({ 
         url: 'est_prestamo',
         datatype: 'json', mtype: 'GET',        
