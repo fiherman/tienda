@@ -30,14 +30,9 @@ Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 
-
 //Route::get('users', 'Prueva@index');
 
 Route::group(['middleware' => 'auth'], function(){
-//    Route::get('registro',[
-//        'uses'  => 'Auth\AuthController@getRegister',
-//        'as'    => 'register'
-//    ]);
     
     Route::post('user_delete/{id}', 'Usuarios@destroy');//eliminar usuario
     Route::get('users', 'Usuarios@index'); // tabla grila usuarios 
@@ -59,14 +54,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('pmo_prestar_save', 'Prestamo@insert_prestamo');//insert PRESTAMO y PRESTAR
     Route::post('save_prenda', 'Prestamo@save_prenda');//guarda las prendas del prestamo
     Route::get('est_prestamo/{cli_id}/{num}', 'Prestamo@tabla_est_prestamo');// crea la tabla est prestamo
-    Route::post('isset_est_prestamo', 'Prestamo@isset_est_prestamo');
+    Route::post('isset_est_prestamo', 'Prestamo@isset_est_prestamo');//si existe el estamo del prestamo
+    Route::post('save_amortizar', 'Prestamo@save_amortizar');//si existe el estamo del prestamo
 //    Route::get('get_num_prestamo', 'Prestamo@tabla_est_prestamo');
     
 });
 
-
-Route::get('/otro', function () {
-   	return view('welcome');
+Route::get('pdf/{id}', 'PdfController@invoice');
+Route::get('otro', function () {
+   	return view('partes/invoice');
 //   	$mes=10;
 //   	$ano=2015;
 //   	$eventos='sdsd';

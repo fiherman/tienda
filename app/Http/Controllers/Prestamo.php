@@ -241,14 +241,43 @@ class Prestamo extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    function save_amortizar(Request $request)
     {
-        //
+        $data = $request->all();
+        date_default_timezone_set('America/Lima');
+        setlocale(LC_ALL,"es_ES");        
+        
+        $amo= array(            
+            'pmo_id'        => $data['pmo_id'],
+            'user_id'       => $data['user_id'],
+            'cli_id'        => $data['cli_id'],            
+            'amo_des'       => 'AMORTIZACION',
+            'amo_monto'     => $data['amo_monto'],
+            'amo_moneda'    => 'SOL',
+            'amo_fch_reg'   => $data['amo_fch'],
+            'amo_fch_up'    => date('d-m-Y H:i:s'),
+            'amo_ano_eje'   => date('Y'),
+        );
+        
+        $insert=DB::table('amortizar')->insert($amo);
+        if ($insert){
+            
+             $est_prestamo = array(                       
+                'pmo_id'        => $amo['pmo_id'],
+                'cli_id'        => $amo['cli_id'],                
+                'pre_interes'   => 0,            
+                'pre_monto'     => $amo['amo_monto'],
+                'pre_fch'       => $amo['amo_fch_reg'],
+                'pre_dias'      => 0,
+                'pre_int_gen'   => 0,
+            );
+            if($this->save_estado_prestamo($est_prestamo,'AMORTIZACION',$data['num'])){            
+                return response()->json([
+                    'msg'       => 'si',                    
+                ]);
+            }else{ return false;}
+        }else{
+            return false;
+        }
     }
 }

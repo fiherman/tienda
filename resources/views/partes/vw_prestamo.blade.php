@@ -238,12 +238,12 @@
         <div id="pager_table_est_prestamo"></div>
     </div> 
     <div style="margin: 2.5% -1% 0 0; height: 15px;">
-        <button class="btn_full_act"  onClick=""><img src="{{asset('images/salir.png')}}" style="width:20px;margin-right: 2px">Ver Prendas Asociadas a este Prestamo</img></button>
+        <button class="btn_full_act"  onClick=""><img src="{{asset('images/prenda.png')}}" style="width:20px;margin-right: 2px">Ver Prendas Asociadas a este Prestamo</img></button>
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act"  onClick="dialog_close('dialog_tabla_est_prestamo');"><img src="{{asset('images/salir.png')}}" style="width:20px;margin-right: 2px">Salir</img></button>
-    <button class="btn_full_act"  onClick="amortizar_pres();"><img src="{{asset('images/cliente.png')}}" style="width:20px;margin-right: 4px">Amortizar</img></button>
-    <button class="btn_full_act"  onClick="prestar_pres();"><img src="{{asset('images/prestamo2.png')}}" style="width:20px;margin-right: 4px">Prestar</img></button>
+    <button class="btn_full_act"  onClick="amortizar_pres();"><img src="{{asset('images/amortizar.png')}}" style="width:20px;margin-right: 4px">Amortizar</img></button>
+    <button class="btn_full_act"  onClick="prestar_pres();"><img src="{{asset('images/prestar.png')}}" style="width:20px;margin-right: 4px">Prestar</img></button>
     <button class="btn_full_act"  onClick=""><img src="{{asset('images/actualizar.png')}}" style="width:20px;margin-right: 4px">Actualizar</img></button>
 </div>
 
@@ -252,6 +252,8 @@
     <div class="filtros">
         <p class="spanasis">MONTO Y FECHA</p><br/> 
         <div class="ctrl_input_resumen">
+            <input type="hidden" id="dialog_amor_pmo_id">
+            <input type="hidden" id="dialog_amor_cli_id">
             <label class="ctrl_lavel_0" style="width:25%">Monto</label>
             <input type="text" class="ctrl_input_t" style="width: 50%" id="dialog_monto_amor" onkeypress="return soloNumeroTab(event);" onblur="fn_onblur(this);">
         </div>
@@ -262,5 +264,5 @@
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act"  onClick="dialog_close('dialog_amortizar');"><img src="{{asset('images/salir.png')}}" style="width:20px;margin-right: 2px">Salir</img></button>
-    <button class="btn_full_act"  onClick=""><img src="{{asset('images/guardar.png')}}" style="width:20px;margin-right: 4px">Aceptar y Guardar Prestamo</img></button>
+    <button class="btn_full_act"  onClick="btn_insert_amortizacion();"><img src="{{asset('images/guardar.png')}}" style="width:20px;margin-right: 4px">Guardar Amortizacion</img></button>
 </div>

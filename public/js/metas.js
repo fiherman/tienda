@@ -91,7 +91,8 @@ function pintar_azul_todo(tip){
             $("#new_prestamo_monto").css({ border: "1px solid #83CBFF"});
            break
         case 5:
-
+            $("#dialog_monto_amor").css({ border: "1px solid #83CBFF"});
+            $("#dialog_fecha_amor").css({ border: "1px solid #83CBFF"});
            break
         case 6:
         case 7:

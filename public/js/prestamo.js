@@ -196,6 +196,7 @@ function btn_guardar_prenda(num,pmo_id){
     }
 }
 
+tabla_primera=0;
 function est_prestamo_cliente(cli_id){   
 
     $.ajax({
@@ -211,14 +212,17 @@ function est_prestamo_cliente(cli_id){
                         document.getElementById('est_prestamo_num').options.length = 0;//reinicia combo             
                     }
                 }).dialog('open');
-                
-                
                 for (i = 1; i <= data.num; i++) {//carga el combo NUM PRESTAMO  BD                    
                     $('#est_prestamo_num').append('<option value=' + i + '>' + 'PRESTAMO '+ i + '</option>');          
+                }                
+                if(tabla_primera==0){                    
+                    tabla_primera=1;
+                    table_est_prestamo(cli_id,1);// por defecto llena la tabla con el primer prestamo  
+                }else{
+                    select_ver_prestamo(1);                    
                 }
-                table_est_prestamo(cli_id,1);// por defecto llena la tabla con el primer prestamo            
             }else{
-                mensaje_sis('mensaje','* Este Clinte no tiene ningun prestamo...',':.ERROR...!!');
+                mensaje_sis('mensaje','* Este Cliente no tiene ningun prestamo...',':.ERROR...!!');
             }
         },error: function(data){
             alert('Contactese con el administrador..');
@@ -234,7 +238,7 @@ function table_est_prestamo(cli_id,num){
         datatype: 'json', mtype: 'GET',        
         width: '100%', height: '150',
         colNames:['id','N','pmo_id','TIPO','%', 'MONTO','FECHA','DIAS','PAGO','total'], 
-        rowNum: 11, sortname: 'est_pre_id', sortorder: 'desc', viewrecords: true, caption: 'ESTADO DE PRESTAMO',  align: "center",
+        rowNum: 11, sortname: 'est_pre_id', sortorder: 'asc', viewrecords: true, caption: 'ESTADO DE PRESTAMO',  align: "center",
         colModel:[ 
             {name:'est_pre_id',index:'est_pre_id', hidden:true}, 
             {name:'num',index:'est_pre_id', width:45,align:'center'}, 
@@ -251,7 +255,7 @@ function table_est_prestamo(cli_id,num){
         rowList: [5, 10],
         gridComplete: function(){           
             var rows = $("#table_est_prestamo").getDataIDs();
-            
+            var pmo_id="";
             var total=0;
             var pagado=0;
             var deuda=0;
@@ -263,12 +267,16 @@ function table_est_prestamo(cli_id,num){
                 }else if(tipo=="AMORTIZACION"){
                     pagado = pagado + parseFloat($("#table_est_prestamo").getCell(rows[i], "est_pre_monto"));
                 }
-                  
+                if(i==0){
+                    pmo_id = $("#table_est_prestamo").getCell(rows[i], "pmo_id");
+                }
             }
             deuda = total - pagado;
             $("#div_est_pre_ttotal").val(total.toFixed(2));
             $("#div_est_pre_pagado").val(pagado.toFixed(2));
             $("#div_est_pre_deuda").val(deuda.toFixed(2));
+            
+            $("#dialog_amor_pmo_id").val(pmo_id);
         }
     }); 
 }
@@ -298,12 +306,43 @@ function get_num(id){
  }
  
  function amortizar_pres() {
-    
+     
     $("#dialog_amortizar").dialog({
-            autoOpen: false, modal: true, height: 250, width: 400, show: { effect: "fade", duration: 300 }
+        autoOpen: false, modal: true, height: 250, width: 400, show: { effect: "fade", duration: 300 },
+        close:function(){
+            limpiar_ctrl('dialog_amortizar');
+            pintar_azul_todo(5);
+        }
     }).dialog('open');
+    
+    $("#dialog_amor_cli_id").val($("#est_prestamo_cli_id").val());
     $("#dialog_fecha_amor").mask("99/99/9999");
     get_fecha_actual('dialog_fecha_amor');
+ }
+ 
+ function btn_insert_amortizacion(){
+    num=$("#est_prestamo_num").val();
+    pmo_id=$("#dialog_amor_pmo_id").val();
+    user_id=global_user_id;
+    cli_id=$("#dialog_amor_cli_id").val();
+    amo_monto=$("#dialog_monto_amor").val();
+    amo_fch=$("#dialog_fecha_amor").val();
+//     alert(pmo_id+'/'+user_id+'/'+cli_id+'/'+amo_monto+'/'+amo_fch);
+    $.ajax({                   
+        url: 'save_amortizar',
+        type: 'POST',
+        data: {num:num,pmo_id:pmo_id,user_id:user_id,cli_id:cli_id,amo_monto:amo_monto,amo_fch:amo_fch,_token:global_token},
+        success: function(data){
+            if(data.msg=='si'){
+                mensaje_sis('mensaje','* La amortizacion se a guargado con exito...','MENSAJE DEL SISTEMA');
+                select_ver_prestamo(num);
+                dialog_close('dialog_amortizar');
+            }
+        },
+        error: function (data) {
+            mensaje_sis('mensaje',' ERROR. Contactese con el administrador..','MENSAJE DEL SISTEMA');
+        }
+    });
  }
 
 function prestar_pres(){
